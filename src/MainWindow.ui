@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>865</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QTableView" name="tableView">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+      <widget class="PointCloudWidget" name="cloudWidget">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>865</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionHelp"/>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionOpen"/>
+   <addaction name="actionSave"/>
+   <addaction name="separator"/>
+   <addaction name="actionMerge"/>
+   <addaction name="actionDelete"/>
+   <addaction name="separator"/>
+   <addaction name="actionBoundingBox"/>
+   <addaction name="actionTopView"/>
+   <addaction name="actionFrontView"/>
+   <addaction name="actionViewLeft"/>
+   <addaction name="actionBackView"/>
+   <addaction name="actionRightView"/>
+   <addaction name="actionBottomView"/>
+   <addaction name="actionViewIso1"/>
+   <addaction name="actionViewIso2"/>
+   <addaction name="separator"/>
+   <addaction name="actionSegment"/>
+   <addaction name="actionAddLabel"/>
+  </widget>
+  <action name="actionMerge">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/merge.png</normaloff>:/images/merge.png</iconset>
+   </property>
+   <property name="text">
+    <string>Merge</string>
+   </property>
+   <property name="toolTip">
+    <string>Merge multiple clouds</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/delete.png</normaloff>:/images/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="actionBoundingBox">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/boundingBox.png</normaloff>:/images/boundingBox.png</iconset>
+   </property>
+   <property name="text">
+    <string>Bounding box</string>
+   </property>
+   <property name="toolTip">
+    <string>Bounding box</string>
+   </property>
+  </action>
+  <action name="actionTopView">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/viewTop.png</normaloff>:/images/viewTop.png</iconset>
+   </property>
+   <property name="text">
+    <string>Top View</string>
+   </property>
+   <property name="toolTip">
+    <string>Set top view</string>
+   </property>
+   <property name="shortcut">
+    <string>8</string>
+   </property>
+  </action>
+  <action name="actionFrontView">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/viewFront.png</normaloff>:/images/viewFront.png</iconset>
+   </property>
+   <property name="text">
+    <string>Front View</string>
+   </property>
+   <property name="toolTip">
+    <string>Set front view</string>
+   </property>
+   <property name="shortcut">
+    <string>5</string>
+   </property>
+  </action>
+  <action name="actionViewLeft">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/viewLeft.png</normaloff>:/images/viewLeft.png</iconset>
+   </property>
+   <property name="text">
+    <string>Left Side View</string>
+   </property>
+   <property name="toolTip">
+    <string>Set left side view</string>
+   </property>
+   <property name="shortcut">
+    <string>4</string>
+   </property>
+  </action>
+  <action name="actionBackView">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/viewBack.png</normaloff>:/images/viewBack.png</iconset>
+   </property>
+   <property name="text">
+    <string>Back View</string>
+   </property>
+   <property name="toolTip">
+    <string>Set back view</string>
+   </property>
+   <property name="shortcut">
+    <string>0</string>
+   </property>
+  </action>
+  <action name="actionRightView">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/viewRight.png</normaloff>:/images/viewRight.png</iconset>
+   </property>
+   <property name="text">
+    <string>Right Side View</string>
+   </property>
+   <property name="toolTip">
+    <string>Set right side view</string>
+   </property>
+   <property name="shortcut">
+    <string>6</string>
+   </property>
+  </action>
+  <action name="actionBottomView">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/viewBottom.png</normaloff>:/images/viewBottom.png</iconset>
+   </property>
+   <property name="text">
+    <string>Bottom View</string>
+   </property>
+   <property name="toolTip">
+    <string>Set bottom view</string>
+   </property>
+   <property name="shortcut">
+    <string>2</string>
+   </property>
+  </action>
+  <action name="actionViewIso1">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/viewIso1.png</normaloff>:/images/viewIso1.png</iconset>
+   </property>
+   <property name="text">
+    <string>Iso 1</string>
+   </property>
+   <property name="toolTip">
+    <string>Set view to 'front' isometric</string>
+   </property>
+   <property name="shortcut">
+    <string>7</string>
+   </property>
+  </action>
+  <action name="actionViewIso2">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/viewIso2.png</normaloff>:/images/viewIso2.png</iconset>
+   </property>
+   <property name="text">
+    <string>Iso 2</string>
+   </property>
+   <property name="toolTip">
+    <string>Set view to 'back' isometric</string>
+   </property>
+   <property name="shortcut">
+    <string>9</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/open.png</normaloff>:/images/open.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Open</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Help</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About ...</string>
+   </property>
+  </action>
+  <action name="actionSegment">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/segment.png</normaloff>:/images/segment.png</iconset>
+   </property>
+   <property name="text">
+    <string>Segment</string>
+   </property>
+   <property name="toolTip">
+    <string>Segment</string>
+   </property>
+  </action>
+  <action name="actionAddLabel">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/addLabel.png</normaloff>:/images/addLabel.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Label</string>
+   </property>
+   <property name="toolTip">
+    <string>Add label</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PointCloudWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header>pointcloudwidget.hpp</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

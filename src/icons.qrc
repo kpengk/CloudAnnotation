@@ -1,0 +1,38 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/addLabel.png</file>
+        <file>images/boundingBox.png</file>
+        <file>images/cancel.png</file>
+        <file>images/delete.png</file>
+        <file>images/exit.png</file>
+        <file>images/grid.png</file>
+        <file>images/hashtag.png</file>
+        <file>images/merge.png</file>
+        <file>images/minus.png</file>
+        <file>images/noFilter.png</file>
+        <file>images/open.png</file>
+        <file>images/pause.png</file>
+        <file>images/plus.png</file>
+        <file>images/polygonSelect.png</file>
+        <file>images/rectangleSelect.png</file>
+        <file>images/reset.png</file>
+        <file>images/revert.png</file>
+        <file>images/rgbCcolor.png</file>
+        <file>images/save.png</file>
+        <file>images/segment.png</file>
+        <file>images/segmentIn.png</file>
+        <file>images/segmentOut.png</file>
+        <file>images/validate.png</file>
+        <file>images/viewBack.png</file>
+        <file>images/viewBottom.png</file>
+        <file>images/viewFront.png</file>
+        <file>images/viewIso1.png</file>
+        <file>images/viewIso2.png</file>
+        <file>images/viewLeft.png</file>
+        <file>images/viewRight.png</file>
+        <file>images/viewTop.png</file>
+        <file>images/xCoordinate.png</file>
+        <file>images/yCoordinate.png</file>
+        <file>images/zCoordinate.png</file>
+    </qresource>
+</RCC>
