@@ -218,7 +218,10 @@ return result;
 
 void GraphicalSegmentationTool::reset() {
     if (something_has_changed_) {
-        //...
+        if (!segment_history_.empty()) {
+            segment_history_.erase(segment_history_.cbegin() + 1, segment_history_.cend());
+            associated_win_->setVisibleVertices(segment_history_.front());
+        }
 
         something_has_changed_ = false;
     }

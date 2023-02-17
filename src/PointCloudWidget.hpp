@@ -61,6 +61,7 @@ public:
     void setPointSize(int value);
     void setAxesVisible(bool visible);
     void setBoundingBoxVisible(bool visible);
+    void setBoundingViewVisible(bool visible);
 
     void setInteractionMode(InteractionFlags flags);
     void setPolyline(const QPolygonF& poly);

@@ -2,6 +2,45 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="../AboutDialog.ui" line="17"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_AboutDialog.h" line="93"/>
+        <source>About CloudCompare</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AboutDialog.ui" line="35"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_AboutDialog.h" line="95"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;:/images/icon/cc_icon_64.png&quot;/&gt;&lt;br/&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;CloudAnnotation&lt;/span&gt;&lt;br/&gt;Version: %1&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;http://www.example.org&quot;&gt;&lt;img src=&quot;:/images/donate.png&quot; width=&quot;200&quot;/&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;http://www.cloudcompare.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;www.example.org&lt;br/&gt;&lt;/span&gt;&lt;/a&gt;License: GNU GPL (General Public Licence)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AboutDialog.ui" line="75"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_AboutDialog.h" line="96"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CloudTableModel</name>
+    <message>
+        <location filename="../CloudTableModel.cpp" line="61"/>
+        <source>visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CloudTableModel.cpp" line="61"/>
+        <source>name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CloudTableModel.cpp" line="61"/>
+        <source>label</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GraphicalSegmentationDlg</name>
     <message>
         <location filename="../GraphicalSegmentationDlg.ui" line="20"/>
@@ -444,6 +483,11 @@ The classification SF will be directly updated (and created if needed).</source>
     <message>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="119"/>
         <source>outside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="188"/>
+        <source>Open file(s)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -14,7 +14,6 @@
 #include <vtkRenderer.h>
 #include <vtkVolumeProperty.h>
 #include <vtkWidgetRepresentation.h>
-
 #include <vtkCellArray.h>
 #include <vtkPointData.h>
 #include <vtkPolyData.h>
@@ -24,6 +23,13 @@
 #include <csv2/reader.hpp>
 #include <spdlog/spdlog.h>
 #include <OverlayDialog.hpp>
+
+#include "CloudTableModel.hpp"
+#include "AboutDialog.hpp"
+
+#include <QFileDialog>
+#include <QDateTime>
+#include <QMessageBox>
 
 constexpr int column_count{6};
 
@@ -66,26 +72,38 @@ MainWindow::MainWindow(QWidget* parent)
     , segmentation_tool_{} {
     ui->setupUi(this);
 
-    ui->splitter->setStretchFactor(1, 3);
     connectActions();
 
-    // 读取数据
-    constexpr std::string_view path = "rail.csv";
-    const auto cloud = read_data(path);
-    spdlog::debug("Point count:{}", cloud.size());
-
-    ui->cloudWidget->updatePoints(cloud);
+    ui->splitter->setStretchFactor(1, 3);
+    ui->tableView->setModel(new CloudTableModel(this));
 }
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::connectActions() {
-    QObject::connect(ui->actionBoundingBox, &QAction::triggered, this,
-                     [this](bool checked) {
-            ui->cloudWidget->setBoundingBoxVisible(ui->actionBoundingBox->isChecked());
-        });
+CloudTableModel* MainWindow::tableViewModel() {
+    static auto model{qobject_cast<CloudTableModel*>(ui->tableView->model())};
+    return model;
+}
 
-    QObject::connect(ui->actionSegment, &QAction::triggered, this, &MainWindow::activateSegmentationMode);
+void MainWindow::connectActions() {
+    //"File" menu
+    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::doActionLoadFile);
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::doActionSaveFile);
+    connect(ui->actionQuit, &QAction::triggered, this, &QWidget::close);
+
+    //"About" menu entry
+    connect(ui->actionHelp, &QAction::triggered, this, &MainWindow::doActionShowHelpDialog);
+    connect(ui->actionAbout, &QAction::triggered, this, [this]() {
+        auto aboutDialog = new AboutDialog("0.1.0", this);
+        aboutDialog->exec();
+    });
+
+    //"Tools"
+    //connect(ui->actionBoundingBox, &QAction::triggered, ui->cloudWidget, &PointCloudWidget::setBoundingBoxVisible);
+    connect(ui->actionSegment, &QAction::triggered, this, &MainWindow::activateSegmentationMode);
+
+    // widget
+    connect(ui->tableView, &QTableView::clicked, this, &MainWindow::doTableViewClicked);
 }
 
 bool MainWindow::haveSelection() { return true; }
@@ -122,16 +140,18 @@ void MainWindow::deactivateSegmentationMode(bool state) {
 
     // shall we apply segmentation?
     if (state) {
-        //m_gsTool->applySegmentation(this, result);
+        //segmentation_tool_->applySegmentation(this, result);
 
-        /*if (m_ccRoot) {
-            m_ccRoot->selectEntities(result);
-        }*/
-    } else {
-        //m_gsTool->removeAllEntities();
+        if (auto model = tableViewModel(); model) {
+            const CloudProperty property{.name = QDateTime::currentDateTime().toString("yyyy-MM-dd_HHmmss"),
+                                   .visible = true,
+                                   .label = -1,
+                                   .vertices = ui->cloudWidget->visibleVertices()};
+            model->appendCloud(property);
+        }
     }
 
-    // we enable all GL windows
+    // we enable all windows
     //enableAll();
 }
 
@@ -161,4 +181,47 @@ void MainWindow::repositionOverlayDialog(OverlayDialog* dlg, Qt::Corner position
     // show();
     dlg->move(ui->cloudWidget->mapToGlobal(QPoint(dx, dy)));
     dlg->raise();
+}
+
+void MainWindow::doActionLoadFile() {
+    // file choosing dialog
+    QString selected_file = QFileDialog::getOpenFileName(this, tr("Open file(s)"), QString(), "CSV (*.csv)");
+    if (selected_file.isEmpty())
+        return;
+
+    // read data
+    const std::string path = selected_file.toStdString();
+    const auto cloud = read_data(path);
+    spdlog::debug("Point count:{}", cloud.size());
+
+    ui->cloudWidget->updatePoints(cloud);
+    if (auto model = tableViewModel(); model) {
+        const CloudProperty property{.name = QFileInfo(selected_file).baseName(),
+                               .visible = true,
+                               .label = -1,
+                               .vertices = ui->cloudWidget->visibleVertices()};
+        model->clearCloud();
+        model->appendCloud(property);
+    }
+}
+
+void MainWindow::doActionSaveFile() {}
+
+void MainWindow::doActionShowHelpDialog() {
+    QMessageBox messageBox;
+    messageBox.setTextFormat(Qt::RichText);
+    messageBox.setWindowTitle("Documentation");
+    messageBox.setText("Please look at the <a href='http://www.example.org/doc/wiki'>wiki</a>");
+    messageBox.setStandardButtons(QMessageBox::Ok);
+    messageBox.exec();
+}
+
+void MainWindow::doTableViewClicked(const QModelIndex& index) {
+    if (!index.isValid())
+        return;
+
+    if (auto model = tableViewModel(); model) {
+        const CloudProperty& cloud = model->cloudAt(index.row());
+        ui->cloudWidget->setVisibleVertices(cloud.vertices);
+    }
 }

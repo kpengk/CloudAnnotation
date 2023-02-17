@@ -30,6 +30,7 @@ struct CloudPoint {
     uint8_t b;
 };
 
+class CloudTableModel;
 class OverlayDialog;
 class GraphicalSegmentationTool;
 
@@ -41,11 +42,17 @@ public:
     ~MainWindow();
 
 private:
+    CloudTableModel* tableViewModel();
     void connectActions();
     bool haveSelection();
     void activateSegmentationMode();
     void deactivateSegmentationMode(bool state);
     void repositionOverlayDialog(OverlayDialog* dlg, Qt::Corner position);
+
+    void doActionLoadFile();
+    void doActionSaveFile();
+    void doActionShowHelpDialog();
+    void doTableViewClicked(const QModelIndex& index);
 
 private:
     Ui::MainWindow* ui;

@@ -57,7 +57,9 @@ public:
         , axes_actor_{vtkSmartPointer<vtkCubeAxesActor>::New()}
         , renderer_{vtkSmartPointer<vtkRenderer>::New()}
         , box_widget_{vtkSmartPointer<CBvtkBoxWidget3D>::New()}
-        , style_{vtkSmartPointer<InteractorStyle>::New()} {}
+        , style_{vtkSmartPointer<InteractorStyle>::New()}
+        , outline_filter_{vtkSmartPointer<vtkOutlineFilter>::New()}
+        , outline_actor_{vtkSmartPointer<vtkActor>::New()} {}
 
 private:
     vtkSmartPointer<vtkPoints> points_;                   // 顶点
@@ -76,6 +78,9 @@ private:
 
     vtkSmartPointer<InteractorStyle> style_;
 
+    vtkSmartPointer<vtkOutlineFilter> outline_filter_;
+    vtkSmartPointer<vtkActor> outline_actor_;
+
     friend class PointCloudWidget;
 };
 
@@ -86,7 +91,7 @@ PointCloudWidget::PointCloudWidget(QWidget* parent)
     d->points_colors_->SetNumberOfComponents(3);
 
     initGeometry();
-    initAxis();
+    //initAxis();
 
     // 设置背景色
     const vtkColor3d bgcolor{0.18, 0.22, 0.25};
@@ -104,7 +109,6 @@ PointCloudWidget::PointCloudWidget(QWidget* parent)
     auto boxCallback = vtkSmartPointer<CBvtkBoxWidget3DCallback>::New();
     boxCallback->SetActor(d->actor_);
 
-    d->box_widget_ = vtkSmartPointer<CBvtkBoxWidget3D>::New();
     d->box_widget_->SetInteractor(renderWindow()->GetInteractor());
     d->box_widget_->SetBounds(d->actor_->GetBounds());
     d->box_widget_->AddObserver(vtkCommand::InteractionEvent, boxCallback);
@@ -146,6 +150,7 @@ void PointCloudWidget::updatePoints(const std::vector<std::array<float, 6>>& clo
     d->axes_actor_->SetBounds(d->points_->GetBounds());
 
     d->poly_data_->Modified();
+    d->outline_filter_->Update();
     d->renderer_->ResetCamera();
     renderWindow()->Render();
 }
@@ -155,6 +160,7 @@ void PointCloudWidget::setVisibleVertices(vtkSmartPointer<vtkCellArray> vertices
     d->poly_data_->SetVerts(d->vertices_);
 
     d->poly_data_->Modified();
+    d->outline_filter_->Modified();
     d->renderer_->ResetCamera();
     renderWindow()->Render();
 }
@@ -171,10 +177,17 @@ void PointCloudWidget::setAxesVisible(bool visible) {
 }
 
 void PointCloudWidget::setBoundingBoxVisible(bool visible) {
-    if (visible)
+    d->outline_actor_->SetVisibility(visible);
+    renderWindow()->Render();
+}
+
+void PointCloudWidget::setBoundingViewVisible(bool visible) {
+    if (visible) {
+        d->box_widget_->SetBounds(d->actor_->GetBounds());
         d->box_widget_->On();
-    else
+    } else {
         d->box_widget_->Off();
+    }
 }
 
 void PointCloudWidget::setPointSize(int value) {
@@ -350,16 +363,15 @@ void PointCloudWidget::initGeometry() {
     d->renderer_->AddActor(d->actor_);
 
     // Draw bounding box
-    vtkSmartPointer<vtkOutlineFilter> out_line_filter = vtkSmartPointer<vtkOutlineFilter>::New();
-    out_line_filter->SetInputData(d->poly_data_);
+    d->outline_filter_->SetInputData(d->poly_data_);
 
-    vtkSmartPointer<vtkPolyDataMapper> out_line_mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-    out_line_mapper->SetInputConnection(out_line_filter->GetOutputPort());
+    vtkSmartPointer<vtkPolyDataMapper> outline_mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    outline_mapper->SetInputConnection(d->outline_filter_->GetOutputPort());
 
-    vtkSmartPointer<vtkActor> outlineActor = vtkSmartPointer<vtkActor>::New();
-    outlineActor->SetMapper(out_line_mapper);
-    outlineActor->GetProperty()->SetColor(0.8, 0.8, 0.8);
-    d->renderer_->AddActor(outlineActor);
+    d->outline_actor_->SetMapper(outline_mapper);
+    d->outline_actor_->GetProperty()->SetColor(0.8, 0.8, 0.8);
+    d->renderer_->AddActor(d->outline_actor_);
+    d->outline_actor_->SetVisibility(false);
 }
 
 void PointCloudWidget::initAxis() {
