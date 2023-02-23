@@ -46,7 +46,6 @@ QPolygonF point_zoom(const QPolygonF& polyline, float scaling_x, float scaling_y
 GraphicalSegmentationTool::GraphicalSegmentationTool(QWidget* parent)
     : OverlayDialog(parent)
     , Ui::GraphicalSegmentationDlg()
-    , something_has_changed_(false)
     , state_(0)
     , rectangular_mode_(false) {
     // Set QDialog background as transparent (DGM: doesn't work over an OpenGL context)
@@ -55,18 +54,17 @@ GraphicalSegmentationTool::GraphicalSegmentationTool(QWidget* parent)
     setupUi(this);
 
     connect(pauseButton, &QToolButton::toggled, this, &GraphicalSegmentationTool::pauseSegmentationMode);
-
     connect(inButton, &QToolButton::clicked, this, &GraphicalSegmentationTool::segmentIn);
     connect(outButton, &QToolButton::clicked, this, &GraphicalSegmentationTool::segmentOut);
-    connect(addClassToolButton, &QToolButton::clicked, this, &GraphicalSegmentationTool::setClassificationValue);
+    connect(undoButton, &QToolButton::clicked, this, &GraphicalSegmentationTool::undo);
+    connect(redoButton, &QToolButton::clicked, this, &GraphicalSegmentationTool::redo);
     connect(resetButton, &QToolButton::clicked, this, &GraphicalSegmentationTool::reset);
     connect(validButton, &QToolButton::clicked, this, &GraphicalSegmentationTool::apply);
     connect(cancelButton, &QToolButton::clicked, this, &GraphicalSegmentationTool::cancel);
 
     // selection modes
-    connect(actionSetPolylineSelection, &QAction::triggered, this, &GraphicalSegmentationTool::doSetPolylineSelection);
-    connect(actionSetRectangularSelection, &QAction::triggered, this,
-            &GraphicalSegmentationTool::doSetRectangularSelection);
+    connect(actionSetPolylineSelection, &QAction::triggered, this, &GraphicalSegmentationTool::setPolylineMode);
+    connect(actionSetRectangularSelection, &QAction::triggered, this, &GraphicalSegmentationTool::setRectangleMode);
 
     // add shortcuts
     addOverriddenShortcut(Qt::Key_Space);  // space bar for the "pause" button
@@ -75,7 +73,8 @@ GraphicalSegmentationTool::GraphicalSegmentationTool(QWidget* parent)
     addOverriddenShortcut(Qt::Key_Tab);    // tab key to switch between rectangular and polygonal selection modes
     addOverriddenShortcut(Qt::Key_I);      //'I' key for the "segment in" button
     addOverriddenShortcut(Qt::Key_O);      //'O' key for the "segment out" button
-    addOverriddenShortcut(Qt::Key_C);      //'C' key for the "classify" button
+    addOverriddenShortcut(Qt::Key_Undo);      //'Ctrl + Z' key for the "undo" button
+    addOverriddenShortcut(Qt::Key_Redo);      //'Ctrl + Y' key for the "redo" button
     connect(this, &OverlayDialog::shortcutTriggered, this, &GraphicalSegmentationTool::onShortcutTriggered);
 
     QMenu* selectionModeMenu = new QMenu(this);
@@ -94,29 +93,24 @@ void GraphicalSegmentationTool::onShortcutTriggered(int key) {
             pauseSegmentationMode(!pauseButton->isChecked());
             // pauseButton->toggle();
             return;
-
         case Qt::Key_I: segmentIn(); return;
-
         case Qt::Key_O: segmentOut(); return;
-
-        case Qt::Key_C: setClassificationValue(); return;
-
+        case Qt::Key_Undo: undo(); return;
+        case Qt::Key_Redo: redo(); return;
         case Qt::Key_Return:
-            if (something_has_changed_)
+            if (!segment_steps_.is_initial_state())
                 apply();
             // validButton->click();
             return;
-
         case Qt::Key_Escape:
             cancel();
             // cancelButton->click();
             return;
-
         case Qt::Key_Tab:
             if (rectangular_mode_)
-                doSetPolylineSelection();
+                setPolylineMode();
             else
-                doSetRectangularSelection();
+                setRectangleMode();
             return;
 
         default:
@@ -155,12 +149,8 @@ bool GraphicalSegmentationTool::start() {
     }
 
     segmentation_poly_.clear();
-
     // the user must not close this window!
     pauseSegmentationMode(false);
-
-    something_has_changed_ = false;
-
     reset();
 
     return OverlayDialog::start();
@@ -177,11 +167,10 @@ void GraphicalSegmentationTool::stop(bool accepted) {
 
 void GraphicalSegmentationTool::setEntity(vtkPoints* points, vtkSmartPointer<vtkCellArray> vertices) {
     points_ = points;
-    segment_history_.clear();
-    segment_history_.push_back(vertices);
+    segment_steps_.reset(vertices);
 }
 
-vtkSmartPointer<vtkCellArray> GraphicalSegmentationTool::entity() const { return segment_history_.back(); }
+vtkSmartPointer<vtkCellArray> GraphicalSegmentationTool::entity() const { return *segment_steps_.current(); }
 
 vtkSmartPointer<vtkCellArray> GraphicalSegmentationTool::applySegmentation(vtkSmartPointer<vtkCellArray> vertices,
                                                                            const QPolygonF& polygon, SegmentType type) {
@@ -214,23 +203,6 @@ vtkSmartPointer<vtkCellArray> GraphicalSegmentationTool::applySegmentation(vtkSm
 }
 
 return result;
-}
-
-void GraphicalSegmentationTool::reset() {
-    if (something_has_changed_) {
-        if (!segment_history_.empty()) {
-            segment_history_.erase(segment_history_.cbegin() + 1, segment_history_.cend());
-            associated_win_->setVisibleVertices(segment_history_.front());
-        }
-
-        something_has_changed_ = false;
-    }
-    if (associated_win_) {
-        associated_win_->update();
-        associated_win_->releaseMouse();
-    }
-    resetButton->setEnabled(false);
-    validButton->setEnabled(false);
 }
 
 void GraphicalSegmentationTool::updatePolyLine(int x, int y, Qt::MouseButtons buttons) {
@@ -411,16 +383,73 @@ void GraphicalSegmentationTool::segment(SegmentType type) {
     spdlog::debug("Window size:({}, {}), render window size:({}, {}).", window_size.width(), window_size.height(),
                   render_window_size[0], render_window_size[1]);
 
-    auto vertices = applySegmentation(segment_history_.back(), cut_line, type);
-    segment_history_.push_back(vertices);
+    auto vertices = applySegmentation(*segment_steps_.current(), cut_line, type);
+    segment_steps_.push(vertices);
 
-    associated_win_->setVisibleVertices(vertices);
+    associated_win_->setVisibleVertices(*segment_steps_.current());
     associated_win_->update();
 
-    something_has_changed_ = true;
     validButton->setEnabled(true);
     resetButton->setEnabled(true);
+    undoButton->setEnabled(true);
+    redoButton->setEnabled(false);
     pauseSegmentationMode(true);
+}
+
+void GraphicalSegmentationTool::undo() {
+    if (!segment_steps_.is_initial_state()) {
+        segment_steps_.undo();
+        associated_win_->setVisibleVertices(*segment_steps_.current());
+    }
+    if (associated_win_) {
+        associated_win_->update();
+        associated_win_->releaseMouse();
+    }
+
+    if (segment_steps_.can_undo()) {
+        validButton->setEnabled(true);
+    } else {
+        undoButton->setEnabled(false);
+        resetButton->setEnabled(false);
+        validButton->setEnabled(false);
+    }
+    redoButton->setEnabled(true);
+}
+
+void GraphicalSegmentationTool::redo() {
+    if (segment_steps_.can_redo()) {
+        segment_steps_.redo();
+        associated_win_->setVisibleVertices(*segment_steps_.current());
+    }
+    if (associated_win_) {
+        associated_win_->update();
+        associated_win_->releaseMouse();
+    }
+    
+    if (segment_steps_.can_redo()) {
+    } else {
+        redoButton->setEnabled(false);
+    }
+
+    undoButton->setEnabled(true);
+    resetButton->setEnabled(true);
+    validButton->setEnabled(true);
+}
+
+void GraphicalSegmentationTool::reset() {
+    if (!segment_steps_.is_initial_state()) {
+        segment_steps_.to_begin();
+        associated_win_->setVisibleVertices(*segment_steps_.current());
+    }
+    if (associated_win_) {
+        associated_win_->update();
+        associated_win_->releaseMouse();
+    }
+
+    undoButton->setEnabled(false);
+    redoButton->setEnabled(segment_steps_.can_redo());
+    resetButton->setEnabled(false);
+    validButton->setEnabled(false);
 }
 
 void GraphicalSegmentationTool::run() {
@@ -474,9 +503,7 @@ void GraphicalSegmentationTool::pauseSegmentationMode(bool state) {
     associated_win_->update();
 }
 
-void GraphicalSegmentationTool::setClassificationValue() {}
-
-void GraphicalSegmentationTool::doSetPolylineSelection() {
+void GraphicalSegmentationTool::setPolylineMode() {
     if (!rectangular_mode_)
         return;
 
@@ -495,7 +522,7 @@ void GraphicalSegmentationTool::doSetPolylineSelection() {
                                        true, 3600);
 }
 
-void GraphicalSegmentationTool::doSetRectangularSelection() {
+void GraphicalSegmentationTool::setRectangleMode() {
     if (rectangular_mode_)
         return;
 

@@ -41,6 +41,10 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
+protected:
+    void moveEvent(QMoveEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
+
 private:
     CloudTableModel* tableViewModel();
     void connectActions();

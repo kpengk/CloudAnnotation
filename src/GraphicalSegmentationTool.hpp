@@ -1,6 +1,7 @@
 #pragma once
 #include "OverlayDialog.hpp"
 #include <ui_GraphicalSegmentationDlg.h>
+#include "StepRecorder.hpp"
 
 #include <vtkSmartPointer.h>
 
@@ -47,6 +48,8 @@ protected:
     void segmentIn();
     void segmentOut();
     void segment(SegmentType type);
+    void undo();
+    void redo();
     void reset();
     void apply();
     void cancel();
@@ -58,16 +61,12 @@ protected:
     void run();
     void stopRunning();
     void pauseSegmentationMode(bool);
-    void setClassificationValue();
-    void doSetPolylineSelection();
-    void doSetRectangularSelection();
+    void setPolylineMode();
+    void setRectangleMode();
 
     //! To capture overridden shortcuts (pause button, etc.)
     void onShortcutTriggered(int);
 protected:
-    //! Whether something has changed or not (for proper 'cancel')
-    bool something_has_changed_;
-
     //! Process states
     enum ProcessStates
     {
@@ -91,5 +90,5 @@ protected:
     bool rectangular_mode_;
 
     vtkPoints* points_;
-    std::vector<vtkSmartPointer<vtkCellArray>> segment_history_;
+    StepRecorder<vtkSmartPointer<vtkCellArray>> segment_steps_;
 };

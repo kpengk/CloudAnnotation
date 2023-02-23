@@ -56,7 +56,6 @@ public:
         , actor_{vtkSmartPointer<vtkActor>::New()}
         , axes_actor_{vtkSmartPointer<vtkCubeAxesActor>::New()}
         , renderer_{vtkSmartPointer<vtkRenderer>::New()}
-        , box_widget_{vtkSmartPointer<CBvtkBoxWidget3D>::New()}
         , style_{vtkSmartPointer<InteractorStyle>::New()}
         , outline_filter_{vtkSmartPointer<vtkOutlineFilter>::New()}
         , outline_actor_{vtkSmartPointer<vtkActor>::New()} {}
@@ -73,8 +72,6 @@ private:
     vtkSmartPointer<vtkCubeAxesActor> axes_actor_;
 
     vtkSmartPointer<vtkRenderer> renderer_;
-
-    vtkSmartPointer<CBvtkBoxWidget3D> box_widget_;
 
     vtkSmartPointer<InteractorStyle> style_;
 
@@ -104,15 +101,6 @@ PointCloudWidget::PointCloudWidget(QWidget* parent)
     setRenderWindow(render_window);
     renderWindow()->AddRenderer(d->renderer_);
     renderWindow()->GetInteractor()->SetInteractorStyle(d->style_);
-
-    // 包围盒
-    auto boxCallback = vtkSmartPointer<CBvtkBoxWidget3DCallback>::New();
-    boxCallback->SetActor(d->actor_);
-
-    d->box_widget_->SetInteractor(renderWindow()->GetInteractor());
-    d->box_widget_->SetBounds(d->actor_->GetBounds());
-    d->box_widget_->AddObserver(vtkCommand::InteractionEvent, boxCallback);
-    d->box_widget_->Off();
 
     renderWindow()->Render();
 }
@@ -159,6 +147,7 @@ void PointCloudWidget::setVisibleVertices(vtkSmartPointer<vtkCellArray> vertices
     d->vertices_ = vertices;
     d->poly_data_->SetVerts(d->vertices_);
 
+    d->vertices_->Modified();
     d->poly_data_->Modified();
     d->outline_filter_->Modified();
     d->renderer_->ResetCamera();
@@ -179,15 +168,6 @@ void PointCloudWidget::setAxesVisible(bool visible) {
 void PointCloudWidget::setBoundingBoxVisible(bool visible) {
     d->outline_actor_->SetVisibility(visible);
     renderWindow()->Render();
-}
-
-void PointCloudWidget::setBoundingViewVisible(bool visible) {
-    if (visible) {
-        d->box_widget_->SetBounds(d->actor_->GetBounds());
-        d->box_widget_->On();
-    } else {
-        d->box_widget_->Off();
-    }
 }
 
 void PointCloudWidget::setPointSize(int value) {
@@ -371,7 +351,7 @@ void PointCloudWidget::initGeometry() {
     d->outline_actor_->SetMapper(outline_mapper);
     d->outline_actor_->GetProperty()->SetColor(0.8, 0.8, 0.8);
     d->renderer_->AddActor(d->outline_actor_);
-    d->outline_actor_->SetVisibility(false);
+    d->outline_actor_->SetVisibility(true);
 }
 
 void PointCloudWidget::initAxis() {
