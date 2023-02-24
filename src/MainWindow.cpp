@@ -3,6 +3,7 @@
 
 #include "GraphicalSegmentationTool.hpp"
 
+#include <vtkCellArray.h>
 #include <vtkColorTransferFunction.h>
 #include <vtkContourValues.h>
 #include <vtkImageData.h>
@@ -10,26 +11,28 @@
 #include <vtkNamedColors.h>
 #include <vtkOpenGLGPUVolumeRayCastMapper.h>
 #include <vtkPiecewiseFunction.h>
-#include <vtkRenderWindow.h>
-#include <vtkRenderer.h>
-#include <vtkVolumeProperty.h>
-#include <vtkWidgetRepresentation.h>
-#include <vtkCellArray.h>
 #include <vtkPointData.h>
 #include <vtkPolyData.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkProperty.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderer.h>
+#include <vtkVolumeProperty.h>
+#include <vtkWidgetRepresentation.h>
+#include <vtkCellArrayIterator.h>
 
+#include <OverlayDialog.hpp>
 #include <csv2/reader.hpp>
 #include <spdlog/spdlog.h>
-#include <OverlayDialog.hpp>
 
-#include "CloudTableModel.hpp"
 #include "AboutDialog.hpp"
+#include "CloudTableModel.hpp"
+#include "Config/ConfigManage.hpp"
 
-#include <QFileDialog>
 #include <QDateTime>
+#include <QFileDialog>
 #include <QMessageBox>
+#include <QRadioButton>
 
 constexpr int column_count{6};
 
@@ -126,15 +129,16 @@ std::vector<std::array<float, column_count>> read_data(std::string_view filename
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow())
-    , segmentation_tool_{} {
+    , segmentation_tool_{}
+    , table_model_{new CloudTableModel(this)}
+    , category_name_group_{new QButtonGroup(this)} {
     ui->setupUi(this);
+    ui->splitter->setStretchFactor(1, 3);
+    ui->tableView->setModel(table_model_);
+    ui->toolBarView->hide();
 
     connectActions();
-
-    ui->splitter->setStretchFactor(1, 3);
-    ui->tableView->setModel(new CloudTableModel(this));
-
-    ui->toolBarView->hide();
+    initCategoryLabels();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -147,11 +151,6 @@ void MainWindow::moveEvent(QMoveEvent* event) {
 void MainWindow::resizeEvent(QResizeEvent* event) {
     if (segmentation_tool_ && segmentation_tool_->isVisible())
         repositionOverlayDialog(segmentation_tool_, Qt::TopRightCorner);
-}
-
-CloudTableModel* MainWindow::tableViewModel() {
-    static auto model{qobject_cast<CloudTableModel*>(ui->tableView->model())};
-    return model;
 }
 
 void MainWindow::connectActions() {
@@ -207,13 +206,11 @@ void MainWindow::deactivateSegmentationMode(bool state) {
     if (state) {
         // segmentation_tool_->applySegmentation(this, result);
 
-        if (auto model = tableViewModel(); model) {
-            const CloudProperty property{.name = QString(tr("object-%1")).arg(model->rowCount()),
-                                         .visible = true,
-                                         .label = -1,
-                                         .vertices = ui->cloudWidget->visibleVertices()};
-            model->appendCloud(property);
-        }
+        const CloudProperty property{.name = QString(tr("cloud-%1")).arg(table_model_->rowCount()),
+                                     .category = 0,
+                                     .visible = true,
+                                     .vertices = ui->cloudWidget->visibleVertices()};
+        table_model_->appendCloud(property);
     }
 
     ui->toolBarFile->setEnabled(true);
@@ -252,27 +249,73 @@ void MainWindow::repositionOverlayDialog(OverlayDialog* dlg, Qt::Corner position
 
 void MainWindow::doActionLoadFile() {
     // file choosing dialog
-    QString selected_file = QFileDialog::getOpenFileName(this, tr("Open file(s)"), QString(), "CSV (*.csv)");
+    const QString selected_file = QFileDialog::getOpenFileName(this, tr("Open file(s)"), QString(), "CSV (*.csv)");
     if (selected_file.isEmpty())
         return;
 
     // read data
     const std::string path = selected_file.toStdString();
     const auto cloud = read_data(path);
+    cloud_raw_data_ = cloud;
     spdlog::debug("Point count:{}", cloud.size());
 
     ui->cloudWidget->updatePoints(cloud);
-    if (auto model = tableViewModel(); model) {
-        const CloudProperty property{.name = QFileInfo(selected_file).baseName(),
-                               .visible = true,
-                               .label = -1,
-                               .vertices = ui->cloudWidget->visibleVertices()};
-        model->clearCloud();
-        model->appendCloud(property);
-    }
+    const CloudProperty property{.name = QFileInfo(selected_file).baseName(),
+                                 .category = 0,
+                                 .visible = true,
+                                 .vertices = ui->cloudWidget->visibleVertices()};
+    table_model_->clearCloud();
+    table_model_->appendCloud(property);
 }
 
-void MainWindow::doActionSaveFile() {}
+void MainWindow::doActionSaveFile() {
+    const QString selected_dir = QFileDialog::getExistingDirectory(this);
+    if (selected_dir.isEmpty())
+        return;
+
+    const auto& items = table_model_->cloudItems();
+    if (items.isEmpty()) {
+        return;
+    }
+
+    QFile info_file(selected_dir + "/cloud_annotaions.csv");
+    if (!info_file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        return;
+    }
+    QTextStream info_ts(&info_file);
+    info_ts << "files,category\n";
+    for (int id = 0; id < items.size(); ++id) {
+        if (items.at(id).category > 0) {
+            info_ts << QString("cloud-%1.csv,%2\n").arg(id).arg(table_model_->categoryName(items.at(id).category));
+        }
+    }
+
+    for (int id = 0; id < items.size(); ++id) {
+        const auto& item = items.at(id);
+        if (item.category <= 0) {
+            continue;
+        }
+
+        QFile points_file(selected_dir + QString("/cloud-%1.csv").arg(id));
+        if (!points_file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            continue;
+        }
+        QTextStream points_ts(&points_file);
+        points_ts << "x,y,z,r,g,b\n";
+        auto iter = vtk::TakeSmartPointer(item.vertices->NewIterator());
+        for (iter->GoToFirstCell(); !iter->IsDoneWithTraversal(); iter->GoToNextCell()) {
+            const int id = iter->GetCurrentCell()->GetId(0);
+            const auto property = cloud_raw_data_.at(id);
+            points_ts << QString("%1,%2,%3,%4,%5,%6\n")
+                             .arg(property[0])
+                             .arg(property[1])
+                             .arg(property[2])
+                             .arg(property[3])
+                             .arg(property[4])
+                             .arg(property[5]);
+        }
+    }
+}
 
 void MainWindow::doActionShowHelpDialog() {
     QMessageBox messageBox;
@@ -287,8 +330,42 @@ void MainWindow::doTableViewClicked(const QModelIndex& index) {
     if (!index.isValid())
         return;
 
-    if (auto model = tableViewModel(); model) {
-        const CloudProperty& cloud = model->cloudAt(index.row());
-        ui->cloudWidget->setVisibleVertices(cloud.vertices);
+    const CloudProperty& cloud = table_model_->cloudAt(index.row());
+    ui->cloudWidget->setVisibleVertices(cloud.vertices);
+
+    auto btn = category_name_group_->button(cloud.category);
+    if (btn) {
+        auto radio_btn = qobject_cast<QRadioButton*>(btn);
+        if (radio_btn) {
+            radio_btn->setChecked(true);
+        }
     }
+}
+
+void MainWindow::initCategoryLabels() {
+    const auto& names = ConfigManage::instance()->category_names();
+    QStringList category_names = {"N/A"};
+    for (const auto& name : names) {
+        category_names.append(QString::fromStdString(name));
+    }
+
+    table_model_->setCategoryNames(category_names);
+
+    int id{};
+    for (const auto& name : category_names) {
+        auto radio = new QRadioButton(name, this);
+        ui->labelVLayout->addWidget(radio);
+        category_name_group_->addButton(radio, id++);
+    }
+    ui->labelVLayout->addStretch();
+
+    connect(category_name_group_, &QButtonGroup::idClicked, this, [this](int id) {
+        const QModelIndex index = ui->tableView->currentIndex();
+        if (!index.isValid())
+            return;
+
+        CloudProperty cloud = table_model_->cloudAt(index.row());
+        cloud.category = id;
+        table_model_->setCloud(index.row(), cloud);
+    });
 }

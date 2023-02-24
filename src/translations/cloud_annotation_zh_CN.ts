@@ -28,17 +28,17 @@
 <context>
     <name>CloudTableModel</name>
     <message>
-        <location filename="../CloudTableModel.cpp" line="61"/>
+        <location filename="../CloudTableModel.cpp" line="96"/>
         <source>visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CloudTableModel.cpp" line="61"/>
+        <location filename="../CloudTableModel.cpp" line="96"/>
         <source>name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CloudTableModel.cpp" line="61"/>
+        <location filename="../CloudTableModel.cpp" line="96"/>
         <source>label</source>
         <translation type="unfinished"></translation>
     </message>
@@ -239,291 +239,291 @@ The classification SF will be directly updated (and created if needed).</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../MainWindow.ui" line="257"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="264"/>
+        <location filename="../MainWindow.ui" line="260"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="271"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="264"/>
         <source>&amp;Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="260"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="266"/>
+        <location filename="../MainWindow.ui" line="263"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="273"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="266"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="269"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="268"/>
+        <location filename="../MainWindow.ui" line="272"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="275"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="268"/>
         <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="272"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="270"/>
+        <location filename="../MainWindow.ui" line="275"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="277"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="270"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="110"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="197"/>
+        <location filename="../MainWindow.ui" line="113"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="204"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="197"/>
         <source>Merge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="113"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="199"/>
+        <location filename="../MainWindow.ui" line="116"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="206"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="199"/>
         <source>Merge multiple clouds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="122"/>
         <location filename="../MainWindow.ui" line="125"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="201"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="203"/>
+        <location filename="../MainWindow.ui" line="128"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="208"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="210"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="201"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="203"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="128"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="206"/>
+        <location filename="../MainWindow.ui" line="131"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="213"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="206"/>
         <source>Del</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="281"/>
         <location filename="../MainWindow.ui" line="284"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="272"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="274"/>
+        <location filename="../MainWindow.ui" line="287"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="279"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="281"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="272"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="274"/>
         <source>Segment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="137"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="208"/>
+        <location filename="../MainWindow.ui" line="140"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="215"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="208"/>
         <source>Top View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="140"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="210"/>
+        <location filename="../MainWindow.ui" line="143"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="217"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="210"/>
         <source>Set top view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="152"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="215"/>
+        <location filename="../MainWindow.ui" line="155"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="222"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="215"/>
         <source>Front View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="155"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="217"/>
+        <location filename="../MainWindow.ui" line="158"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="224"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="217"/>
         <source>Set front view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="182"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="229"/>
+        <location filename="../MainWindow.ui" line="185"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="236"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="229"/>
         <source>Back View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="185"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="231"/>
+        <location filename="../MainWindow.ui" line="188"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="238"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="231"/>
         <source>Set back view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="167"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="222"/>
+        <location filename="../MainWindow.ui" line="170"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="229"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="222"/>
         <source>Left Side View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="14"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="196"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="203"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="196"/>
         <source>MainWindow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="58"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="280"/>
+        <location filename="../MainWindow.ui" line="61"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="287"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="280"/>
         <source>toolBar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="74"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="281"/>
+        <location filename="../MainWindow.ui" line="77"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="288"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="281"/>
         <source>toolBar_2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="93"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="282"/>
+        <location filename="../MainWindow.ui" line="96"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="289"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="282"/>
         <source>toolBar_3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="143"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="213"/>
+        <location filename="../MainWindow.ui" line="146"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="220"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="213"/>
         <source>8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="158"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="220"/>
+        <location filename="../MainWindow.ui" line="161"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="227"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="220"/>
         <source>5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="170"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="224"/>
+        <location filename="../MainWindow.ui" line="173"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="231"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="224"/>
         <source>Set left side view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="173"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="227"/>
+        <location filename="../MainWindow.ui" line="176"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="234"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="227"/>
         <source>4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="188"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="234"/>
+        <location filename="../MainWindow.ui" line="191"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="241"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="234"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="197"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="236"/>
+        <location filename="../MainWindow.ui" line="200"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="243"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="236"/>
         <source>Right Side View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="200"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="238"/>
+        <location filename="../MainWindow.ui" line="203"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="245"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="238"/>
         <source>Set right side view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="203"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="241"/>
+        <location filename="../MainWindow.ui" line="206"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="248"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="241"/>
         <source>6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="212"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="243"/>
+        <location filename="../MainWindow.ui" line="215"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="250"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="243"/>
         <source>Bottom View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="215"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="245"/>
+        <location filename="../MainWindow.ui" line="218"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="252"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="245"/>
         <source>Set bottom view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="218"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="248"/>
+        <location filename="../MainWindow.ui" line="221"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="255"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="248"/>
         <source>2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="233"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="255"/>
+        <location filename="../MainWindow.ui" line="236"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="262"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="255"/>
         <source>7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="248"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="262"/>
+        <location filename="../MainWindow.ui" line="251"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="269"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="262"/>
         <source>9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="293"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="276"/>
+        <location filename="../MainWindow.ui" line="296"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="283"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="276"/>
         <source>Add Label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="296"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="278"/>
+        <location filename="../MainWindow.ui" line="299"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="285"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="278"/>
         <source>Add label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="227"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="250"/>
+        <location filename="../MainWindow.ui" line="230"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="257"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="250"/>
         <source>Iso 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="230"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="252"/>
+        <location filename="../MainWindow.ui" line="233"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="259"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="252"/>
         <source>Set view to &apos;front&apos; isometric</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="242"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="257"/>
+        <location filename="../MainWindow.ui" line="245"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="264"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="257"/>
         <source>Iso 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="245"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="259"/>
+        <location filename="../MainWindow.ui" line="248"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="266"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_MainWindow.h" line="259"/>
         <source>Set view to &apos;back&apos; isometric</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="211"/>
-        <source>object-%1</source>
+        <location filename="../MainWindow.cpp" line="209"/>
+        <source>cloud-%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="255"/>
+        <location filename="../MainWindow.cpp" line="252"/>
         <source>Open file(s)</source>
         <translation type="unfinished"></translation>
     </message>

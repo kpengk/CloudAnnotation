@@ -14,6 +14,8 @@
 #include <vtkGenericOpenGLRenderWindow.h>
 
 #include <QPolygonF>
+#include <QButtonGroup>
+#include <QStringList>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -46,7 +48,7 @@ protected:
     void resizeEvent(QResizeEvent* event) override;
 
 private:
-    CloudTableModel* tableViewModel();
+    void initCategoryLabels();
     void connectActions();
     bool haveSelection();
     void activateSegmentationMode();
@@ -61,4 +63,7 @@ private:
 private:
     Ui::MainWindow* ui;
     GraphicalSegmentationTool* segmentation_tool_;
+    CloudTableModel* table_model_;
+    QButtonGroup* category_name_group_;
+    std::vector<std::array<float, 6>> cloud_raw_data_;
 };

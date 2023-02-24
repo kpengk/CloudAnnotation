@@ -3,13 +3,14 @@
 #include <vtkCellArray.h>
 
 #include <QAbstractTableModel>
+#include <QStringList>
 #include <vector>
 
 struct CloudProperty {
     QString name;
-    bool visible;
-    int label;
-    vtkSmartPointer<vtkCellArray> vertices;
+    int category{};
+    bool visible{};
+    vtkSmartPointer<vtkCellArray> vertices{};
 };
 
 class CloudTableModel : public QAbstractTableModel {
@@ -21,8 +22,13 @@ public:
 
     void appendCloud(const CloudProperty& cloud);
     void removeCloud(int id);
+    bool setCloud(int id, const CloudProperty& cloud);
+    bool setCloudCategory(int id, int category);
     const CloudProperty& cloudAt(int id) const;
     void clearCloud();
+    void setCategoryNames(const QStringList& names);
+    const QVector<CloudProperty>& cloudItems() const;
+    QString categoryName(int category) const;
 
     // override
     int rowCount(const QModelIndex& = QModelIndex()) const override;
@@ -30,8 +36,7 @@ public:
     QVariant data(const QModelIndex& index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
-protected:
-
 private:
-    std::vector<CloudProperty> clouds_;
+    QVector<CloudProperty> clouds_;
+    QStringList category_names_;
 };

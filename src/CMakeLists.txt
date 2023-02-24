@@ -34,7 +34,7 @@ qt6_create_translation(QM_FILES ${PROJECT_SOURCE_DIR} ${TS_FILES})
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/ui_templates )
 
-file( GLOB source_list *.h *.hpp *.cpp )
+file( GLOB_RECURSE source_list *.h *.hpp *.cpp )
 file( GLOB ui_list *.ui )
 file( GLOB qrc_list *.qrc )
 
