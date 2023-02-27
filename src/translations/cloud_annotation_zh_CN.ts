@@ -518,12 +518,12 @@ The classification SF will be directly updated (and created if needed).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="175"/>
+        <location filename="../MainWindow.cpp" line="124"/>
         <source>cloud-%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="218"/>
+        <location filename="../MainWindow.cpp" line="167"/>
         <source>Open file(s)</source>
         <translation type="unfinished"></translation>
     </message>

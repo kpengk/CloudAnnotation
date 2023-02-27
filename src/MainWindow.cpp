@@ -1,9 +1,14 @@
 #include "MainWindow.hpp"
 #include "ui_MainWindow.h"
 
+#include "AboutDialog.hpp"
+#include "CloudTableModel.hpp"
+#include "Config/ConfigManage.hpp"
 #include "GraphicalSegmentationTool.hpp"
+#include "Reader/CsvPiontReader.hpp"
 
 #include <vtkCellArray.h>
+#include <vtkCellArrayIterator.h>
 #include <vtkColorTransferFunction.h>
 #include <vtkContourValues.h>
 #include <vtkImageData.h>
@@ -19,83 +24,25 @@
 #include <vtkRenderer.h>
 #include <vtkVolumeProperty.h>
 #include <vtkWidgetRepresentation.h>
-#include <vtkCellArrayIterator.h>
 
 #include <OverlayDialog.hpp>
-#include <csv2/reader.hpp>
 #include <spdlog/spdlog.h>
-
-#include "AboutDialog.hpp"
-#include "CloudTableModel.hpp"
-#include "Config/ConfigManage.hpp"
-#include "ErrorCloudPoint.hpp"
 
 #include <QDateTime>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QProgressDialog>
 #include <QRadioButton>
-
-bool read_data(std::string_view filename, PointCloudContainer& clouds) {
-    clouds.clear();
-    csv2::Reader<csv2::delimiter<','>, csv2::quote_character<'"'>, csv2::first_row_is_header<true>,
-                 csv2::trim_policy::trim_whitespace>
-        csv;
-
-    if (!csv.mmap(filename)) {
-        spdlog::error("Fail to open file. filename:{}", filename);
-        return false;
-    }
-    const auto header = csv.header();
-    clouds.reserve(csv.rows());
-
-    if (csv.cols() == 5) { // X Y Z error object
-        clouds.setHeader(QStringList{"x", "y", "z", "error"});
-        for (const auto row : csv) {
-            std::array<float, 5> row_val;
-            int id{};
-            for (const auto cell : row) {
-                std::string value;
-                cell.read_value(value);
-                row_val[id] = std::stof(value);
-                ++id;
-            }
-            if (row_val[4] > 0) {
-                break;
-            }
-            ErrorCloudPoint* point = new ErrorCloudPoint(row_val[0], row_val[1], row_val[2], row_val[3]);
-            clouds.push_back(point);
-        }
-
-        return true;
-    } else if (csv.cols() == 6) { // X Y Z R G B
-        clouds.setHeader(QStringList{"x", "y", "z", "r", "g", "b"});
-        for (const auto row : csv) {
-            std::array<float, 6> row_val;
-            int id{};
-            for (const auto cell : row) {
-                std::string value;
-                cell.read_value(value);
-                row_val[id] = std::stof(value);
-                ++id;
-            }
-            AbstractCloudPoint* point =
-                new AbstractCloudPoint(row_val[0], row_val[1], row_val[2], Color(row_val[3], row_val[4], row_val[5]));
-            clouds.push_back(point);
-        }
-
-        return true;
-    } else {
-        spdlog::error("Unknown data type.");
-        return false;
-    }
-}
+#include <QScopedPointer>
+#include <QtConcurrent>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow())
     , segmentation_tool_{}
     , table_model_{new CloudTableModel(this)}
-    , category_name_group_{new QButtonGroup(this)} {
+    , category_name_group_{new QButtonGroup(this)}
+    , cloud_raw_data_{} {
     ui->setupUi(this);
     ui->splitter->setStretchFactor(1, 3);
     ui->tableView->setModel(table_model_);
@@ -103,11 +50,13 @@ MainWindow::MainWindow(QWidget* parent)
 
     connectActions();
     initCategoryLabels();
-    constexpr int len = sizeof(AbstractCloudPoint);
-    constexpr int len2 = sizeof(Color);
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow() {
+    delete ui;
+    if (cloud_raw_data_)
+        delete cloud_raw_data_;
+}
 
 void MainWindow::moveEvent(QMoveEvent* event) {
     if (segmentation_tool_ && segmentation_tool_->isVisible())
@@ -219,13 +168,33 @@ void MainWindow::doActionLoadFile() {
     if (selected_file.isEmpty())
         return;
 
-    // read data
-    const std::string path = selected_file.toLocal8Bit().constData();
-    cloud_raw_data_.clear();
-    const bool ret = read_data(path, cloud_raw_data_);
-    spdlog::debug("Point count:{}", cloud_raw_data_.size());
+    QScopedPointer<QProgressDialog> progress{new QProgressDialog};
+    progress->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+    progress->setWindowTitle("Load");
+    progress->setAutoClose(true);
+    progress->setLabelText("Load data ...");
+    progress->setRange(0, 100);
+    progress->setCancelButton(nullptr);
 
-    ui->cloudWidget->updatePoints(&cloud_raw_data_);
+    // read data
+    QtConcurrent::run([&]() {
+        const std::string path = selected_file.toLocal8Bit().constData();
+        if (cloud_raw_data_) {
+            delete cloud_raw_data_;
+            cloud_raw_data_ = nullptr;
+        }
+        CsvPiontReader reader;
+        connect(&reader, &CsvPiontReader::progressChanged, progress.data(), &QProgressDialog::setValue);
+        cloud_raw_data_ = reader.read_data(path);
+    });
+    progress->exec();
+
+    if (!cloud_raw_data_) {
+        return;
+    }
+    spdlog::debug("Point count:{}", cloud_raw_data_->pointCount());
+
+    ui->cloudWidget->updatePoints(cloud_raw_data_);
     const CloudProperty property{.name = QFileInfo(selected_file).baseName(),
                                  .category = 0,
                                  .visible = true,
@@ -267,21 +236,19 @@ void MainWindow::doActionSaveFile() {
             continue;
         }
         QTextStream points_ts(&points_file);
-        const auto head = cloud_raw_data_.header();
-        for (int i = 0; i < head.size(); ++i)
-        {
+        const auto head = cloud_raw_data_->header();
+        for (int i = 0; i < head.size(); ++i) {
             points_ts << head.at(i);
             if (i + 1 < head.size())
                 points_ts << ",";
             else
                 points_ts << "\n";
         }
-        
+
         auto iter = vtk::TakeSmartPointer(item.vertices->NewIterator());
         for (iter->GoToFirstCell(); !iter->IsDoneWithTraversal(); iter->GoToNextCell()) {
             const int id = iter->GetCurrentCell()->GetId(0);
-            const auto property = cloud_raw_data_.at(id);
-            points_ts << property->to_csv() << "\n";
+            points_ts << cloud_raw_data_->toCSV(id) << "\n";
         }
     }
 }

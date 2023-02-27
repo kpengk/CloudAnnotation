@@ -1,5 +1,6 @@
 #pragma once
 #include <QtGlobal>
+#include <QString>
 
 class Color {
 public:
@@ -29,6 +30,9 @@ public:
         g_ = g;
         b_ = b;
     }
+
+    QString toCSV() const { return QString("%1,%2,%3").arg(r_).arg(g_).arg(b_); }
+    QString toCSVWithAlpha() const { return QString("%1,%2,%3,%4").arg(r_).arg(g_).arg(b_).arg(a_); }
 
 private:
     quint8 r_;

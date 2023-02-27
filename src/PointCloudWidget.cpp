@@ -5,7 +5,7 @@
 #include "GraphicalSegmentationTool.hpp"
 #include "BoundingBox.hpp"
 #include "InteractorStyle.hpp"
-#include "PointCloudContainer.hpp"
+#include "Container/AbstractPointCloudContainer.hpp"
 
 #include <vtkColorTransferFunction.h>
 #include <vtkContourValues.h>
@@ -108,22 +108,22 @@ PointCloudWidget::PointCloudWidget(QWidget* parent)
 
 PointCloudWidget::~PointCloudWidget() {}
 
-void PointCloudWidget::updatePoints(const PointCloudContainer* clouds) {
+void PointCloudWidget::updatePoints(const AbstractPointCloudContainer* clouds) {
     timer t;
     d->points_->Resize(0);
     d->points_colors_->Resize(0);
     d->vertices_->Reset();
 
     // 物体
-    const int point_count = clouds->size();
+    const int point_count = clouds->pointCount();
 
     // 读点云数据信息
     for (int n = 0; n < point_count; ++n) {
-        const auto* point = clouds->at(n);
+        const auto point = clouds->pointAt(n);
 
-        d->points_->InsertNextPoint(point->x(), point->y(), point->z()); // 加入点信息
+        d->points_->InsertNextPoint(point.x(), point.y(), point.z()); // 加入点信息
 
-        const auto point_color = point->color();
+        const auto point_color = clouds->colorAt(n);
         unsigned char color[] = {point_color.red(), point_color.gree(), point_color.blue(), point_color.alpha()};
         d->points_colors_->InsertNextTypedTuple(color);
 

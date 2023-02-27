@@ -2,7 +2,7 @@
 #include <QMainWindow>
 #include "BoundingBox.hpp"
 #include "GraphicalSegmentationTool.hpp"
-#include "PointCloudContainer.hpp"
+#include "Container/AbstractPointCloudContainer.hpp"
 
 #include <vtkSmartPointer.h>
 #include <vtkPoints.h>
@@ -66,5 +66,5 @@ private:
     GraphicalSegmentationTool* segmentation_tool_;
     CloudTableModel* table_model_;
     QButtonGroup* category_name_group_;
-    PointCloudContainer cloud_raw_data_;
+    AbstractPointCloudContainer* cloud_raw_data_;
 };

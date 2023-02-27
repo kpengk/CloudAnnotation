@@ -12,7 +12,7 @@
 class vtkRenderer;
 class vtkPoints;
 class vtkCellArray;
-class PointCloudContainer;
+class AbstractPointCloudContainer;
 
 class PointCloudWidget : public QVTKOpenGLNativeWidget {
     Q_OBJECT
@@ -52,7 +52,7 @@ public:
 public:
     explicit PointCloudWidget(QWidget* parent = nullptr);
     ~PointCloudWidget();
-    void updatePoints(const PointCloudContainer* clouds);
+    void updatePoints(const AbstractPointCloudContainer* clouds);
     void setVisibleVertices(vtkSmartPointer<vtkCellArray> vertices);
     vtkSmartPointer<vtkCellArray> visibleVertices();
     vtkSmartPointer<vtkPoints> allPoints();
