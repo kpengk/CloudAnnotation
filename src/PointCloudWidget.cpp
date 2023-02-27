@@ -5,6 +5,7 @@
 #include "GraphicalSegmentationTool.hpp"
 #include "BoundingBox.hpp"
 #include "InteractorStyle.hpp"
+#include "PointCloudContainer.hpp"
 
 #include <vtkColorTransferFunction.h>
 #include <vtkContourValues.h>
@@ -85,7 +86,7 @@ PointCloudWidget::PointCloudWidget(QWidget* parent)
     : QVTKOpenGLNativeWidget(parent)
     , d{std::make_unique<PointCloudWidgetPrivate>()} {
     // 指定(颜色)数组中每个元组的大小
-    d->points_colors_->SetNumberOfComponents(3);
+    d->points_colors_->SetNumberOfComponents(4);
 
     initGeometry();
     //initAxis();
@@ -107,29 +108,30 @@ PointCloudWidget::PointCloudWidget(QWidget* parent)
 
 PointCloudWidget::~PointCloudWidget() {}
 
-void PointCloudWidget::updatePoints(const std::vector<std::array<float, 6>>& cloud) {
+void PointCloudWidget::updatePoints(const PointCloudContainer* clouds) {
     timer t;
     d->points_->Resize(0);
     d->points_colors_->Resize(0);
     d->vertices_->Reset();
 
     // 物体
-    const int max_point_count = cloud.size();
+    const int point_count = clouds->size();
 
     // 读点云数据信息
-    for (int n = 0; n < max_point_count; ++n) {
-        const auto& value = cloud[n];
+    for (int n = 0; n < point_count; ++n) {
+        const auto* point = clouds->at(n);
 
-        d->points_->InsertNextPoint(value[0], value[1], value[2]); // 加入点信息
+        d->points_->InsertNextPoint(point->x(), point->y(), point->z()); // 加入点信息
 
-        unsigned char color[] = {value[3], value[4], value[5]};
+        const auto point_color = point->color();
+        unsigned char color[] = {point_color.red(), point_color.gree(), point_color.blue(), point_color.alpha()};
         d->points_colors_->InsertNextTypedTuple(color);
 
         d->vertices_->InsertNextCell(1); // 用于渲染点集
         d->vertices_->InsertCellPoint(n);
     }
 
-    printf("Time: %lf\n", t.elapsed());
+    printf("Update points time: %.3lfms\n", t.elapsed());
 
     d->poly_data_->SetPoints(d->points_);                         // 设置点集
     d->poly_data_->SetVerts(d->vertices_);                        // 设置渲染顶点

@@ -13,8 +13,8 @@
 #include <Dbghelp.h>
 #include <QApplication>
 #include <QFile>
-#include <QTranslator>
 #include <QMessageBox>
+#include <QTranslator>
 #include <Windows.h>
 #include <iostream>
 #include <stdio.h>
@@ -109,9 +109,9 @@ int main(int argc, char* argv[]) {
     spdlog::flush_every(std::chrono::seconds(5));
     spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] %^[%L]%$ [tid %t] %v");
 
-    QCoreApplication::setApplicationName("Rail Measure");
-    QCoreApplication::setOrganizationName("Glasssix");
-    QCoreApplication::setOrganizationDomain("glasssix.com");
+    QCoreApplication::setApplicationName("Cloud Aannotation");
+    QCoreApplication::setOrganizationName("example");
+    QCoreApplication::setOrganizationDomain("example.com");
 
     spdlog::info("Application start.");
 
@@ -134,11 +134,11 @@ int main(int argc, char* argv[]) {
         exitCode = a.exec();
     } catch (const std::exception& e) {
         QMessageBox::warning(nullptr, "Cloud annotation crashed!",
-                             QString("Hum, it seems that rail measure has crashed... Sorry about that :)\n") +
-                                 e.what());
+                             QString("Hum, it seems that cloud annotation has crashed... Sorry about that :)\n") +
+                                 QString::fromLocal8Bit(e.what()));
     } catch (...) {
         QMessageBox::warning(nullptr, "Cloud annotation crashed!",
-                             "Hum, it seems that rail measure has crashed... Sorry about that :)");
+                             "Hum, it seems that cloud annotation has crashed... Sorry about that :)");
     }
 
     spdlog::info("Application quit.");

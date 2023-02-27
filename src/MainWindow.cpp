@@ -28,101 +28,65 @@
 #include "AboutDialog.hpp"
 #include "CloudTableModel.hpp"
 #include "Config/ConfigManage.hpp"
+#include "ErrorCloudPoint.hpp"
 
 #include <QDateTime>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QRadioButton>
 
-constexpr int column_count{6};
-
-namespace {
-double interpolate(double value, double y0, double x0, double y1, double x1) {
-    if (value < x0)
-        return y0;
-    if (value > x1)
-        return y1;
-    return (value - x0) * (y1 - y0) / (x1 - x0) + y0;
-}
-
-double jet_base(double value) {
-    if (value <= -0.75)
-        return 0.0;
-    else if (value <= -0.25)
-        return interpolate(value, 0.0, -0.75, 1.0, -0.25);
-    else if (value <= 0.25)
-        return 1.0;
-    else if (value <= 0.75)
-        return interpolate(value, 1.0, 0.25, 0.0, 0.75);
-    else
-        return 0.0;
-}
-
-// value: (-0.125, 1.125]
-std::array<double, 3> map_color(double value) {
-    return std::array{
-        jet_base(value * 2.0 - 1.5), // red
-        jet_base(value * 2.0 - 1.0), // green
-        jet_base(value * 2.0 - 0.5)  // blue
-    };
-}
-
-constexpr std::array<double, 3> color_01(int r, int g, int b) { return std::array{r / 255.0, g / 255.0, b / 255.0}; }
-} // namespace
-
-std::vector<std::array<float, column_count>> read_data(std::string_view filename) {
+bool read_data(std::string_view filename, PointCloudContainer& clouds) {
+    clouds.clear();
     csv2::Reader<csv2::delimiter<','>, csv2::quote_character<'"'>, csv2::first_row_is_header<true>,
                  csv2::trim_policy::trim_whitespace>
         csv;
 
     if (!csv.mmap(filename)) {
         spdlog::error("Fail to open file. filename:{}", filename);
-        return {};
+        return false;
     }
     const auto header = csv.header();
+    clouds.reserve(csv.rows());
+
     if (csv.cols() == 5) { // X Y Z error object
-        std::vector<std::array<float, column_count>> result;
-        result.reserve(csv.rows());
-        // X Y Z R G B
+        clouds.setHeader(QStringList{"x", "y", "z", "error"});
         for (const auto row : csv) {
-            std::array<float, column_count> row_val;
-            std::size_t id{};
+            std::array<float, 5> row_val;
+            int id{};
             for (const auto cell : row) {
                 std::string value;
                 cell.read_value(value);
                 row_val[id] = std::stof(value);
                 ++id;
             }
-            // error to rgb
-            const auto rgb = map_color(row_val[3]);
-            // Reassign
-            row_val[3] = rgb[0] * 255.0F;
-            row_val[4] = rgb[1] * 255.0F;
-            row_val[5] = rgb[2] * 255.0F;
-            result.push_back(row_val);
+            if (row_val[4] > 0) {
+                break;
+            }
+            ErrorCloudPoint* point = new ErrorCloudPoint(row_val[0], row_val[1], row_val[2], row_val[3]);
+            clouds.push_back(point);
         }
 
-        return result;
+        return true;
     } else if (csv.cols() == 6) { // X Y Z R G B
-        std::vector<std::array<float, column_count>> result;
-        result.reserve(csv.rows());
-        // X Y Z R G B
+        clouds.setHeader(QStringList{"x", "y", "z", "r", "g", "b"});
         for (const auto row : csv) {
-            std::array<float, column_count> row_val;
-            std::size_t id{};
+            std::array<float, 6> row_val;
+            int id{};
             for (const auto cell : row) {
                 std::string value;
                 cell.read_value(value);
                 row_val[id] = std::stof(value);
                 ++id;
             }
-            result.push_back(row_val);
+            AbstractCloudPoint* point =
+                new AbstractCloudPoint(row_val[0], row_val[1], row_val[2], Color(row_val[3], row_val[4], row_val[5]));
+            clouds.push_back(point);
         }
 
-        return result;
+        return true;
     } else {
-        spdlog::error("The number of columns is not equal to {}.", column_count);
-        return {};
+        spdlog::error("Unknown data type.");
+        return false;
     }
 }
 
@@ -139,6 +103,8 @@ MainWindow::MainWindow(QWidget* parent)
 
     connectActions();
     initCategoryLabels();
+    constexpr int len = sizeof(AbstractCloudPoint);
+    constexpr int len2 = sizeof(Color);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -254,12 +220,12 @@ void MainWindow::doActionLoadFile() {
         return;
 
     // read data
-    const std::string path = selected_file.toStdString();
-    const auto cloud = read_data(path);
-    cloud_raw_data_ = cloud;
-    spdlog::debug("Point count:{}", cloud.size());
+    const std::string path = selected_file.toLocal8Bit().constData();
+    cloud_raw_data_.clear();
+    const bool ret = read_data(path, cloud_raw_data_);
+    spdlog::debug("Point count:{}", cloud_raw_data_.size());
 
-    ui->cloudWidget->updatePoints(cloud);
+    ui->cloudWidget->updatePoints(&cloud_raw_data_);
     const CloudProperty property{.name = QFileInfo(selected_file).baseName(),
                                  .category = 0,
                                  .visible = true,
@@ -301,18 +267,21 @@ void MainWindow::doActionSaveFile() {
             continue;
         }
         QTextStream points_ts(&points_file);
-        points_ts << "x,y,z,r,g,b\n";
+        const auto head = cloud_raw_data_.header();
+        for (int i = 0; i < head.size(); ++i)
+        {
+            points_ts << head.at(i);
+            if (i + 1 < head.size())
+                points_ts << ",";
+            else
+                points_ts << "\n";
+        }
+        
         auto iter = vtk::TakeSmartPointer(item.vertices->NewIterator());
         for (iter->GoToFirstCell(); !iter->IsDoneWithTraversal(); iter->GoToNextCell()) {
             const int id = iter->GetCurrentCell()->GetId(0);
             const auto property = cloud_raw_data_.at(id);
-            points_ts << QString("%1,%2,%3,%4,%5,%6\n")
-                             .arg(property[0])
-                             .arg(property[1])
-                             .arg(property[2])
-                             .arg(property[3])
-                             .arg(property[4])
-                             .arg(property[5]);
+            points_ts << property->to_csv() << "\n";
         }
     }
 }
