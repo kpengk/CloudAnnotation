@@ -6,34 +6,17 @@
 #include "Config/ConfigManage.hpp"
 #include "Reader/CsvPiontReader.hpp"
 #include "General/OverlayDialog.hpp"
+#include "Container/AbstractPointCloudContainer.hpp"
 #include "GraphicalSegmentationTool.hpp"
 
 #include <spdlog/spdlog.h>
-#include <vtkCellArray.h>
 #include <vtkCellArrayIterator.h>
-#include <vtkColorTransferFunction.h>
-#include <vtkContourValues.h>
-#include <vtkImageData.h>
-#include <vtkMetaImageReader.h>
-#include <vtkNamedColors.h>
-#include <vtkOpenGLGPUVolumeRayCastMapper.h>
-#include <vtkPiecewiseFunction.h>
-#include <vtkPointData.h>
 #include <vtkPolyData.h>
-#include <vtkPolyDataMapper.h>
-#include <vtkProperty.h>
-#include <vtkRenderWindow.h>
-#include <vtkRenderer.h>
-#include <vtkVolumeProperty.h>
-#include <vtkWidgetRepresentation.h>
 
-#include <QDateTime>
+
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QProgressDialog>
 #include <QRadioButton>
-#include <QScopedPointer>
-#include <QtConcurrent>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)

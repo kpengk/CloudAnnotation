@@ -8,7 +8,7 @@ set(CMAKE_AUTORCC ON)
 
 set(target_name CloudAnnotation)
 
-find_package(Qt6 COMPONENTS Widgets Concurrent LinguistTools REQUIRED)
+find_package(Qt6 COMPONENTS Widgets LinguistTools REQUIRED)
 find_package(VTK REQUIRED)
 
 if(VTK_FOUND)
@@ -52,7 +52,7 @@ else()
 endif()
 
 target_include_directories(${target_name} PRIVATE ../include )
-target_link_libraries(${target_name} PRIVATE ${VTK_LIBRARIES} Qt6::Widgets Qt6::Concurrent)
+target_link_libraries(${target_name} PRIVATE ${VTK_LIBRARIES} Qt6::Widgets)
 
 set_target_properties(${target_name} PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER example.com

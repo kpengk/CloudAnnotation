@@ -1,22 +1,6 @@
 #pragma once
 #include <QMainWindow>
-#include "BoundingBox.hpp"
-#include "GraphicalSegmentationTool.hpp"
-#include "Container/AbstractPointCloudContainer.hpp"
-
-#include <vtkSmartPointer.h>
-#include <vtkPoints.h>
-#include <vtkUnsignedCharArray.h>
-#include <vtkCellArray.h>
-#include <vtkPolyData.h>
-#include <vtkPolyDataMapper.h>
-#include <vtkActor.h>
-#include <vtkRenderer.h>
-#include <vtkGenericOpenGLRenderWindow.h>
-
-#include <QPolygonF>
 #include <QButtonGroup>
-#include <QStringList>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -36,6 +20,7 @@ struct CloudPoint {
 class CloudTableModel;
 class OverlayDialog;
 class GraphicalSegmentationTool;
+class AbstractPointCloudContainer;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT

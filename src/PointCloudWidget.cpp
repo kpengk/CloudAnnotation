@@ -1,26 +1,11 @@
 #include "PointCloudWidget.hpp"
-
-#include <Common/timer.hpp>
-
 #include "GraphicalSegmentationTool.hpp"
 #include "BoundingBox.hpp"
 #include "InteractorStyle.hpp"
 #include "Container/AbstractPointCloudContainer.hpp"
 #include "General/OverlayDialog.hpp"
 
-#include <vtkColorTransferFunction.h>
-#include <vtkContourValues.h>
-#include <vtkImageData.h>
-#include <vtkMetaImageReader.h>
-#include <vtkNamedColors.h>
-#include <vtkOpenGLGPUVolumeRayCastMapper.h>
-#include <vtkPiecewiseFunction.h>
-#include <vtkRenderWindow.h>
-#include <vtkRenderer.h>
-#include <vtkVolumeProperty.h>
-#include <vtkWidgetRepresentation.h>
-#include <QVTKOpenGLNativeWidget.h>
-
+#include <vtkColor.h>
 #include <vtkCellArray.h>
 #include <vtkCubeAxesActor.h>
 #include <vtkOutlineFilter.h>
@@ -28,18 +13,13 @@
 #include <vtkPolyData.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkProperty.h>
-
 #include <vtkActor.h>
-#include <vtkCellArray.h>
 #include <vtkGenericOpenGLRenderWindow.h>
-#include <QVTKOpenGLNativeWidget.h>
 #include <vtkPoints.h>
-#include <vtkPolyData.h>
-#include <vtkPolyDataMapper.h>
 #include <vtkRenderer.h>
 #include <vtkUnsignedCharArray.h>
 
-#include <csv2/reader.hpp>
+#include <Common/timer.hpp>
 #include <spdlog/spdlog.h>
 
 #include <QPaintEvent>
