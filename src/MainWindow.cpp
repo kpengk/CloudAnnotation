@@ -4,9 +4,11 @@
 #include "AboutDialog.hpp"
 #include "CloudTableModel.hpp"
 #include "Config/ConfigManage.hpp"
-#include "GraphicalSegmentationTool.hpp"
 #include "Reader/CsvPiontReader.hpp"
+#include "General/OverlayDialog.hpp"
+#include "GraphicalSegmentationTool.hpp"
 
+#include <spdlog/spdlog.h>
 #include <vtkCellArray.h>
 #include <vtkCellArrayIterator.h>
 #include <vtkColorTransferFunction.h>
@@ -24,9 +26,6 @@
 #include <vtkRenderer.h>
 #include <vtkVolumeProperty.h>
 #include <vtkWidgetRepresentation.h>
-
-#include <OverlayDialog.hpp>
-#include <spdlog/spdlog.h>
 
 #include <QDateTime>
 #include <QFileDialog>
@@ -168,26 +167,16 @@ void MainWindow::doActionLoadFile() {
     if (selected_file.isEmpty())
         return;
 
-    QScopedPointer<QProgressDialog> progress{new QProgressDialog};
-    progress->setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
-    progress->setWindowTitle("Load");
-    progress->setAutoClose(true);
-    progress->setLabelText("Load data ...");
-    progress->setRange(0, 100);
-    progress->setCancelButton(nullptr);
+    
 
     // read data
-    QtConcurrent::run([&]() {
-        const std::string path = selected_file.toLocal8Bit().constData();
-        if (cloud_raw_data_) {
-            delete cloud_raw_data_;
-            cloud_raw_data_ = nullptr;
-        }
-        CsvPiontReader reader;
-        connect(&reader, &CsvPiontReader::progressChanged, progress.data(), &QProgressDialog::setValue);
-        cloud_raw_data_ = reader.read_data(path);
-    });
-    progress->exec();
+    const std::string path = selected_file.toLocal8Bit().constData();
+    if (cloud_raw_data_) {
+        delete cloud_raw_data_;
+        cloud_raw_data_ = nullptr;
+    }
+    CsvPiontReader reader;
+    cloud_raw_data_ = reader.read_data(path);
 
     if (!cloud_raw_data_) {
         return;

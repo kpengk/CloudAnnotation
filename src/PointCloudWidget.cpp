@@ -6,6 +6,7 @@
 #include "BoundingBox.hpp"
 #include "InteractorStyle.hpp"
 #include "Container/AbstractPointCloudContainer.hpp"
+#include "General/OverlayDialog.hpp"
 
 #include <vtkColorTransferFunction.h>
 #include <vtkContourValues.h>
@@ -38,7 +39,6 @@
 #include <vtkRenderer.h>
 #include <vtkUnsignedCharArray.h>
 
-#include <OverlayDialog.hpp>
 #include <csv2/reader.hpp>
 #include <spdlog/spdlog.h>
 

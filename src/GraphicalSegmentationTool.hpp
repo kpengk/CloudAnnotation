@@ -1,5 +1,5 @@
 #pragma once
-#include "OverlayDialog.hpp"
+#include "General/OverlayDialog.hpp"
 #include <ui_GraphicalSegmentationDlg.h>
 #include "StepRecorder.hpp"
 
