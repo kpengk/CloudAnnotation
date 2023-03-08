@@ -133,11 +133,7 @@
       <item>
        <widget class="QToolButton" name="undoButton">
         <property name="toolTip">
-         <string>Set the class of points inside the polyline (C).
-The classification SF will be directly updated (and created if needed).</string>
-        </property>
-        <property name="statusTip">
-         <string>Set the class of points inside the polyline (C)</string>
+         <string>undo (Ctrl+Z)</string>
         </property>
         <property name="icon">
          <iconset resource="icons.qrc">
@@ -148,11 +144,7 @@ The classification SF will be directly updated (and created if needed).</string>
       <item>
        <widget class="QToolButton" name="redoButton">
         <property name="toolTip">
-         <string>Set the class of points inside the polyline (C).
-The classification SF will be directly updated (and created if needed).</string>
-        </property>
-        <property name="statusTip">
-         <string>Set the class of points inside the polyline (C)</string>
+         <string>redo (Ctrl+Y)</string>
         </property>
         <property name="icon">
          <iconset resource="icons.qrc">
@@ -163,11 +155,7 @@ The classification SF will be directly updated (and created if needed).</string>
       <item>
        <widget class="QToolButton" name="resetButton">
         <property name="toolTip">
-         <string>Set the class of points inside the polyline (C).
-The classification SF will be directly updated (and created if needed).</string>
-        </property>
-        <property name="statusTip">
-         <string>Set the class of points inside the polyline (C)</string>
+         <string>reset</string>
         </property>
         <property name="icon">
          <iconset resource="icons.qrc">
@@ -179,9 +167,6 @@ The classification SF will be directly updated (and created if needed).</string>
        <widget class="QToolButton" name="validButton">
         <property name="toolTip">
          <string>Confirm segmentation (Enter)</string>
-        </property>
-        <property name="statusTip">
-         <string>Confirm segmentation</string>
         </property>
         <property name="text">
          <string>OK</string>
@@ -195,10 +180,7 @@ The classification SF will be directly updated (and created if needed).</string>
       <item>
        <widget class="QToolButton" name="cancelButton">
         <property name="toolTip">
-         <string>Cancel (Esc)</string>
-        </property>
-        <property name="statusTip">
-         <string>Cancel segentation</string>
+         <string>Cancel segentation (Esc)</string>
         </property>
         <property name="text">
          <string>Cancel</string>

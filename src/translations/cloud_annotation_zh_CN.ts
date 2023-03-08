@@ -126,7 +126,7 @@
         <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="184"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="184"/>
         <source>Segment Out (O)</source>
-        <translation>外部分割 (I)</translation>
+        <translation>外部分割 (O)</translation>
     </message>
     <message>
         <location filename="../GraphicalSegmentationDlg.ui" line="122"/>
@@ -144,96 +144,97 @@
     </message>
     <message>
         <location filename="../GraphicalSegmentationDlg.ui" line="136"/>
-        <location filename="../GraphicalSegmentationDlg.ui" line="151"/>
-        <location filename="../GraphicalSegmentationDlg.ui" line="166"/>
         <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="191"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="198"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="205"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="191"/>
-        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="198"/>
-        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="205"/>
+        <source>undo (Ctrl+Z)</source>
+        <translation>撤销</translation>
+    </message>
+    <message>
+        <location filename="../GraphicalSegmentationDlg.ui" line="147"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="194"/>
+        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="194"/>
+        <source>redo (Ctrl+Y)</source>
+        <translation>重做</translation>
+    </message>
+    <message>
+        <location filename="../GraphicalSegmentationDlg.ui" line="158"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="197"/>
+        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="197"/>
+        <source>reset</source>
+        <translation>重置</translation>
+    </message>
+    <message>
+        <location filename="../GraphicalSegmentationDlg.ui" line="183"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="204"/>
+        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="204"/>
+        <source>Cancel segentation (Esc)</source>
+        <translation>取消分割 (Esc)</translation>
+    </message>
+    <message>
         <source>Set the class of points inside the polyline (C).
 The classification SF will be directly updated (and created if needed).</source>
-        <translation>设置折线内的点类 (C).</translation>
+        <translation type="vanished">设置折线内的点类 (C).</translation>
     </message>
     <message>
-        <location filename="../GraphicalSegmentationDlg.ui" line="140"/>
-        <location filename="../GraphicalSegmentationDlg.ui" line="155"/>
-        <location filename="../GraphicalSegmentationDlg.ui" line="170"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="195"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="202"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="209"/>
-        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="195"/>
-        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="202"/>
-        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="209"/>
         <source>Set the class of points inside the polyline (C)</source>
-        <translation>设置折线内的点类 (C)</translation>
+        <translation type="vanished">设置折线内的点类 (C)</translation>
     </message>
     <message>
-        <location filename="../GraphicalSegmentationDlg.ui" line="181"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="212"/>
-        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="212"/>
+        <location filename="../GraphicalSegmentationDlg.ui" line="169"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="200"/>
+        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="200"/>
         <source>Confirm segmentation (Enter)</source>
         <translation>确认分割（Enter）</translation>
     </message>
     <message>
-        <location filename="../GraphicalSegmentationDlg.ui" line="184"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="215"/>
-        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="215"/>
         <source>Confirm segmentation</source>
-        <translation>确认分割</translation>
+        <translation type="vanished">确认分割</translation>
     </message>
     <message>
-        <location filename="../GraphicalSegmentationDlg.ui" line="187"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="217"/>
-        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="217"/>
+        <location filename="../GraphicalSegmentationDlg.ui" line="172"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="202"/>
+        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="202"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="../GraphicalSegmentationDlg.ui" line="198"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="219"/>
-        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="219"/>
         <source>Cancel (Esc)</source>
-        <translation>取消 (Esc)</translation>
+        <translation type="vanished">取消 (Esc)</translation>
     </message>
     <message>
-        <location filename="../GraphicalSegmentationDlg.ui" line="201"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="222"/>
-        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="222"/>
         <source>Cancel segentation</source>
-        <translation>取消分割</translation>
+        <translation type="vanished">取消分割</translation>
     </message>
     <message>
-        <location filename="../GraphicalSegmentationDlg.ui" line="204"/>
-        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="224"/>
-        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="224"/>
+        <location filename="../GraphicalSegmentationDlg.ui" line="186"/>
+        <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="206"/>
+        <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="206"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../GraphicalSegmentationDlg.ui" line="222"/>
+        <location filename="../GraphicalSegmentationDlg.ui" line="204"/>
         <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="157"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="157"/>
         <source>Rectangular selection</source>
         <translation>矩形选择模式</translation>
     </message>
     <message>
-        <location filename="../GraphicalSegmentationDlg.ui" line="225"/>
+        <location filename="../GraphicalSegmentationDlg.ui" line="207"/>
         <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="159"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="159"/>
         <source>Activate rectangular selection</source>
         <translation>激活矩形选择</translation>
     </message>
     <message>
-        <location filename="../GraphicalSegmentationDlg.ui" line="234"/>
+        <location filename="../GraphicalSegmentationDlg.ui" line="216"/>
         <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="161"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="161"/>
         <source>Polygonal selection</source>
         <translation>折线选择</translation>
     </message>
     <message>
-        <location filename="../GraphicalSegmentationDlg.ui" line="237"/>
+        <location filename="../GraphicalSegmentationDlg.ui" line="219"/>
         <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="163"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="163"/>
         <source>Activate polyline selection</source>
