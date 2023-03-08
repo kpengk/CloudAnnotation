@@ -4,15 +4,14 @@
 #include "AboutDialog.hpp"
 #include "CloudTableModel.hpp"
 #include "Config/ConfigManage.hpp"
-#include "Reader/CsvPiontReader.hpp"
-#include "General/OverlayDialog.hpp"
 #include "Container/AbstractPointCloudContainer.hpp"
+#include "General/OverlayDialog.hpp"
 #include "GraphicalSegmentationTool.hpp"
+#include "Reader/CsvPiontReader.hpp"
 
 #include <spdlog/spdlog.h>
 #include <vtkCellArrayIterator.h>
 #include <vtkPolyData.h>
-
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -150,8 +149,6 @@ void MainWindow::doActionLoadFile() {
     if (selected_file.isEmpty())
         return;
 
-    
-
     // read data
     const std::string path = selected_file.toLocal8Bit().constData();
     if (cloud_raw_data_) {
@@ -210,17 +207,14 @@ void MainWindow::doActionSaveFile() {
         QTextStream points_ts(&points_file);
         const auto head = cloud_raw_data_->header();
         for (int i = 0; i < head.size(); ++i) {
-            points_ts << head.at(i);
-            if (i + 1 < head.size())
-                points_ts << ",";
-            else
-                points_ts << "\n";
+            points_ts << head.at(i) << ",";
         }
+        points_ts << "index\n";
 
         auto iter = vtk::TakeSmartPointer(item.vertices->NewIterator());
         for (iter->GoToFirstCell(); !iter->IsDoneWithTraversal(); iter->GoToNextCell()) {
             const int id = iter->GetCurrentCell()->GetId(0);
-            points_ts << cloud_raw_data_->toCSV(id) << "\n";
+            points_ts << cloud_raw_data_->toCSV(id) << ',' << id << '\n';
         }
     }
 }

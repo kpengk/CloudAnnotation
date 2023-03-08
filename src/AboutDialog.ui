@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>About CloudCompare</string>
+   <string>About CloudAnnotation</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
