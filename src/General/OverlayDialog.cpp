@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QEvent>
 #include <QKeyEvent>
+#include <QMetaEnum>
 
 // system
 #include <cassert>
@@ -85,10 +86,18 @@ void OverlayDialog::reject() {
 
 void OverlayDialog::addOverriddenShortcut(Qt::Key key) { overridden_keys_.push_back(key); }
 
+void OverlayDialog::addOverriddenStandShortcut(QKeySequence::StandardKey key) { overridden_stand_keys_.push_back(key); }
+
 bool OverlayDialog::eventFilter(QObject* obj, QEvent* e) {
     if (e->type() == QEvent::KeyPress) {
         QKeyEvent* key_event = static_cast<QKeyEvent*>(e);
 
+        for (auto stand_key : overridden_stand_keys_) {
+            if (key_event->matches(static_cast<QKeySequence::StandardKey>(stand_key))) {
+                emit standShortcutTriggered(stand_key);
+                return true;
+            }
+        }
         if (overridden_keys_.contains(key_event->key())) {
             emit shortcutTriggered(key_event->key());
             return true;

@@ -66,6 +66,8 @@ protected:
 
     //! To capture overridden shortcuts (pause button, etc.)
     void onShortcutTriggered(int);
+    void onStandShortcutTriggered(int);
+
 protected:
     //! Process states
     enum ProcessStates

@@ -147,14 +147,14 @@
         <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="191"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="191"/>
         <source>undo (Ctrl+Z)</source>
-        <translation>撤销</translation>
+        <translation>撤销 (Ctrl+Z)</translation>
     </message>
     <message>
         <location filename="../GraphicalSegmentationDlg.ui" line="147"/>
         <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="194"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="194"/>
         <source>redo (Ctrl+Y)</source>
-        <translation>重做</translation>
+        <translation>重做 (Ctrl+Y)</translation>
     </message>
     <message>
         <location filename="../GraphicalSegmentationDlg.ui" line="158"/>
@@ -171,15 +171,6 @@
         <translation>取消分割 (Esc)</translation>
     </message>
     <message>
-        <source>Set the class of points inside the polyline (C).
-The classification SF will be directly updated (and created if needed).</source>
-        <translation type="vanished">设置折线内的点类 (C).</translation>
-    </message>
-    <message>
-        <source>Set the class of points inside the polyline (C)</source>
-        <translation type="vanished">设置折线内的点类 (C)</translation>
-    </message>
-    <message>
         <location filename="../GraphicalSegmentationDlg.ui" line="169"/>
         <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="200"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="200"/>
@@ -187,23 +178,11 @@ The classification SF will be directly updated (and created if needed).</source>
         <translation>确认分割（Enter）</translation>
     </message>
     <message>
-        <source>Confirm segmentation</source>
-        <translation type="vanished">确认分割</translation>
-    </message>
-    <message>
         <location filename="../GraphicalSegmentationDlg.ui" line="172"/>
         <location filename="../../out/build/x64-Debug/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="202"/>
         <location filename="../../out/build/x64-Release/src/CloudAnnotation_autogen/include/ui_GraphicalSegmentationDlg.h" line="202"/>
         <source>OK</source>
         <translation>确定</translation>
-    </message>
-    <message>
-        <source>Cancel (Esc)</source>
-        <translation type="vanished">取消 (Esc)</translation>
-    </message>
-    <message>
-        <source>Cancel segentation</source>
-        <translation type="vanished">取消分割</translation>
     </message>
     <message>
         <location filename="../GraphicalSegmentationDlg.ui" line="186"/>

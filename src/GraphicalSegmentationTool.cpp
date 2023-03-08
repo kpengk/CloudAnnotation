@@ -73,9 +73,10 @@ GraphicalSegmentationTool::GraphicalSegmentationTool(QWidget* parent)
     addOverriddenShortcut(Qt::Key_Tab);    // tab key to switch between rectangular and polygonal selection modes
     addOverriddenShortcut(Qt::Key_I);      //'I' key for the "segment in" button
     addOverriddenShortcut(Qt::Key_O);      //'O' key for the "segment out" button
-    addOverriddenShortcut(Qt::Key_Undo);      //'Ctrl + Z' key for the "undo" button
-    addOverriddenShortcut(Qt::Key_Redo);      //'Ctrl + Y' key for the "redo" button
     connect(this, &OverlayDialog::shortcutTriggered, this, &GraphicalSegmentationTool::onShortcutTriggered);
+    addOverriddenStandShortcut(QKeySequence::Undo); //'Ctrl + Z' key for the "undo" button
+    addOverriddenStandShortcut(QKeySequence::Redo); //'Ctrl + Y' key for the "redo" button
+    connect(this, &OverlayDialog::standShortcutTriggered, this, &GraphicalSegmentationTool::onStandShortcutTriggered);
 
     QMenu* selectionModeMenu = new QMenu(this);
     selectionModeMenu->addAction(actionSetPolylineSelection);
@@ -95,8 +96,6 @@ void GraphicalSegmentationTool::onShortcutTriggered(int key) {
             return;
         case Qt::Key_I: segmentIn(); return;
         case Qt::Key_O: segmentOut(); return;
-        case Qt::Key_Undo: undo(); return;
-        case Qt::Key_Redo: redo(); return;
         case Qt::Key_Return:
             if (!segment_steps_.is_initial_state())
                 apply();
@@ -113,6 +112,16 @@ void GraphicalSegmentationTool::onShortcutTriggered(int key) {
                 setRectangleMode();
             return;
 
+        default:
+            // nothing to do
+            break;
+    }
+}
+
+void GraphicalSegmentationTool::onStandShortcutTriggered(int key) {
+    switch (key) {
+        case QKeySequence::Undo: undo(); return;
+        case QKeySequence::Redo: redo(); return;
         default:
             // nothing to do
             break;

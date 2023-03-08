@@ -19,6 +19,7 @@ signals:
     /** See ccOverlayDialog::addOverriddenShortcut
      **/
     void shortcutTriggered(int key);
+    void standShortcutTriggered(int key);
 
     //! Signal emitted when a 'show' event is detected
     void shown();
@@ -53,6 +54,7 @@ public:
     /** When an overridden key is pressed, the shortcutTriggered(int) signal is emitted.
      **/
     void addOverriddenShortcut(Qt::Key key);
+    void addOverriddenStandShortcut(QKeySequence::StandardKey key);
 
     //! Returns whether the tool is currently started or not
     bool started() const { return processing_; }
@@ -72,4 +74,5 @@ protected:
 
     //! Overridden keys
     QList<int> overridden_keys_;
+    QList<int> overridden_stand_keys_;
 };
